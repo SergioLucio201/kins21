@@ -454,12 +454,86 @@
         @keyframes moving-grass--8 { 0%, 100% { transform: scale(0.55) rotate(50deg) rotateY(-70deg); } 50% { transform: scale(0.55) rotate(53deg) rotateY(-65deg); } }
         @keyframes moving-grass--9 { 0%, 100% { transform: scale(0.3) rotate(20deg) rotateY(90deg); } 50% { transform: scale(0.3) rotate(23deg) rotateY(95deg); } }
         @keyframes moving-grass--10 { 0%, 100% { transform: scale(0.35) rotate(-45deg) rotateY(-120deg); } 50% { transform: scale(0.35) rotate(-42deg) rotateY(-115deg); } }
+    
+        .pregunta-container {
+            position: fixed;
+            left: 5%;
+            top: 40%;
+            z-index: 100;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .botones {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            min-height: 50px; /* Le da un espacio reservado */
+        }
+
+        #btn-si, #btn-no {
+            padding: 10px 25px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #btn-si {
+            background-color: #ff4d4d;
+            color: white;
+            box-shadow: 0 0 10px #ff4d4d;
+        }
+
+        #btn-no {
+            background-color: #555;
+            color: white;
+            padding: 10px 25px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            /* Eliminamos el position: fixed de aquí para que no se encime al inicio */
+        }
+
+        .mensaje-final {
+            position: fixed;
+            left: 5%;
+            top: 45%;
+            font-size: 2rem;
+            color: #ff3b3b;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            z-index: 110;
+            animation: fadeIn 1s ease-in;
+        }
+    
     </style>
 </head>
 <body class="">
     <div class="night"></div>
     
     <div class="special-text">Diana...<br> Si te quedas, incluso esperaría toda la noche o hasta que mi corazón explote💖💥<br>-Siempre tuyo, Lexi🏈</div>
+
+    <div id="contenedor-pregunta" class="pregunta-container">
+        <h2 id="texto-pregunta">¿Volvemos a intentarlo?</h2>
+        <div class="botones">
+            <button id="btn-si" onclick="aceptar()">Sí</button>
+            <button id="btn-no" onmouseover="huir()">No</button>
+        </div>
+    </div>
+
+    <div id="mensaje-final" class="mensaje-final" style="display: none;">
+        Sabía que dirías que sí preciosa ❤️
+    </div>
 
     <div class="shooting-stars">
         <div class="shooting-star"></div>
@@ -703,6 +777,53 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Esta es la función que hace que el botón escape
+        const frases = [
+        "¡Uy!", 
+        "¡Cerca!", 
+        "Nop", 
+        "¿Segura? 🥺", 
+        "Intenta de nuevo", 
+        "Casi...", 
+        "Ni lo pienses", 
+        "Para allá no"
+        ];
+        function huir() {
+    const btnNo = document.getElementById('btn-no');
+
+    const margin = 20; // margen de seguridad
+    const btnWidth = btnNo.offsetWidth;
+    const btnHeight = btnNo.offsetHeight;
+
+    const maxX = window.innerWidth - btnWidth - margin;
+    const maxY = window.innerHeight - btnHeight - margin;
+
+    const minX = margin;
+    const minY = margin;
+
+    const newX = Math.random() * (maxX - minX) + minX;
+    const newY = Math.random() * (maxY - minY) + minY;
+
+    btnNo.style.position = 'fixed';
+    btnNo.style.left = `${newX}px`;
+    btnNo.style.top = `${newY}px`;
+    btnNo.style.zIndex = '1000';
+
+    // Cambiar texto
+    const fraseAleatoria = frases[Math.floor(Math.random() * frases.length)];
+    btnNo.innerText = fraseAleatoria;
+}
+        // Esta es la función para cuando por fin de el "Sí"
+        function aceptar() {
+            document.getElementById('contenedor-pregunta').style.display = 'none';
+            document.getElementById('mensaje-final').style.display = 'block';
+            
+            // Si pusiste el reproductor de música, puedes hacer que empiece aquí:
+            // document.getElementById('miMusica').play();
+        }
+    </script>
 
 </body>
 </html>
