@@ -8,6 +8,7 @@
             --pip-green: #18ff62;
             --pip-dark: #071a0b;
             --pip-glow: rgba(24, 255, 98, 0.2);
+            --pip-glass: rgba(24, 255, 98, 0.03);
         }
 
         body {
@@ -24,8 +25,8 @@
         }
 
         .pipboy-screen {
-            width: 750px;
-            height: 500px;
+            width: 850px; /* Un poco más ancho para acomodar la imagen y la nota */
+            height: 550px;
             border: 12px solid #333;
             border-radius: 25px;
             background-color: var(--pip-dark);
@@ -57,9 +58,10 @@
         header nav li {
             padding: 5px 10px;
             font-weight: bold;
-            font-size: 0.9em;
+            font-size: 0.85em;
             cursor: pointer;
             transition: all 0.2s;
+            letter-spacing: 1px;
         }
 
         header nav li:hover {
@@ -71,32 +73,58 @@
             color: var(--pip-dark);
         }
 
+        /* Contenedor principal ajustado para dos columnas */
         main {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 80%;
+            gap: 20px; /* Espacio entre la imagen y la nota */
+        }
+
+        /* Estilo para la imagen del boceto */
+        .sketch-container {
+            flex: 1; /* Ocupa espacio proporcional */
+            max-width: 40%; /* Limita el ancho máximo */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 75%;
         }
 
+        .sketch-image {
+            max-width: 100%;
+            max-height: 350px; /* Ajusta la altura máxima para que quepa bien */
+            height: auto; /* Mantiene la proporción */
+            border: 2px solid var(--pip-green);
+            box-shadow: 0 0 10px var(--pip-glow);
+            /* Aplica filtro verde Pip-Boy a la imagen */
+            filter: sepia(100%) saturate(300%) brightness(90%) hue-rotate(60deg) contrast(120%);
+            opacity: 0.8;
+        }
+
+        /* Estilo de la nota de Merlín (ajustado para el nuevo diseño) */
         .exorcism-note {
+            flex: 1.5; /* Ocupa un poco más de espacio que la imagen */
             text-align: center;
             border: 2px solid var(--pip-green);
-            padding: 25px;
-            background-color: rgba(24, 255, 98, 0.05);
+            padding: 20px;
+            background-color: var(--pip-glass);
             box-shadow: 0 0 15px var(--pip-glow);
-            max-width: 85%;
+            max-width: 55%;
         }
 
         .note-title {
             font-weight: bold;
             text-decoration: underline;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: block;
+            font-size: 1.1em;
         }
 
         .note-content p {
-            margin: 10px 0;
-            line-height: 1.4;
+            margin: 8px 0;
+            line-height: 1.3;
+            font-size: 0.95em;
         }
 
         @keyframes flicker {
@@ -118,12 +146,16 @@
                     <li onclick="pedirPassword()">DESENCRIPTAR</li>
                     <li class="active">NOTAS IMPORTANTES</li>
                     <li onclick="pedirPassword()">MAPA</li>
-                    <li onclick="pedirPassword()">CHAT</li>
+                    <li onclick="pedirPassword()">RADIO</li>
                 </ul>
             </nav>
         </header>
 
         <main id="main-content">
+            <div class="sketch-container">
+                <img src="sketch1775367335732.gif" alt="Boceto de Exorcismo" class="sketch-image">
+            </div>
+
             <div class="exorcism-note">
                 <span class="note-title">Encantamientos para exorcizar a un demonio</span>
                 <div class="note-content">
@@ -138,9 +170,7 @@
 
     <script>
         function pedirPassword() {
-
             let psw = prompt("INGRESE CONTRASEÑA DE ADMINISTRADOR:");
-
             if (psw !== null) {
                 alert("ERROR CRÍTICO: CONTRASEÑA INCORRECTA.\nACCESO DENEGADO AL SECTOR.");
             }
